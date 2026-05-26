@@ -1,6 +1,6 @@
-# voice-ledger
+# VOICE LEDGER
 
-# Telegram Voice → Employment Data Bot
+# telegram voice → employment data bot
 
 Accepts a voice note on Telegram, transcribes it, extracts structured
 employment data (employer, wage, dates), and replies — all in under 2 seconds.
