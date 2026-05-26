@@ -13,6 +13,8 @@ from telegram.ext import (
     filters,
     ContextTypes,
 )
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import threading
 
 
 logging.basicConfig(
@@ -190,10 +192,29 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown",
     )
 
+#ping
+
+class _PingHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+ 
+    def log_message(self, *args):
+        pass  # silence access logs
+ 
+ 
+def start_ping_server():
+    port = int(os.getenv("PORT", 8080))
+    server = HTTPServer(("0.0.0.0", port), _PingHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    logger.info(f"Ping server listening on port {port}")
 
 #Entry point
 
 def main():
+    start_ping_server()
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 
     app.add_handler(CommandHandler("start", cmd_start))
