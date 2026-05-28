@@ -1,7 +1,3 @@
-"""
-Generates a VoiceLedger income proof PDF.
-Install: pip install fpdf2
-"""
 from fpdf import FPDF
 from app.models.entry import LedgerEntry
 from app.models.user import TelegramUser
